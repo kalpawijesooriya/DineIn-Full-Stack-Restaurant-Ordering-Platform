@@ -1,0 +1,11 @@
+namespace DineIn.Domain.Entities;
+
+public class CustomizationGroupTemplate
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public bool Required { get; set; }
+    public int MaxSelections { get; set; } = 1;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public ICollection<CustomizationOptionTemplate> OptionTemplates { get; set; } = new List<CustomizationOptionTemplate>();
+}

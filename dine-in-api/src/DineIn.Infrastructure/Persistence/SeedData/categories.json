@@ -1,0 +1,8 @@
+[
+  { "id": "cat-1", "name": "Appetizers", "imageUrl": "https://picsum.photos/seed/appetizers/400/300", "sortOrder": 1 },
+  { "id": "cat-2", "name": "Main Course", "imageUrl": "https://picsum.photos/seed/maincourse/400/300", "sortOrder": 2 },
+  { "id": "cat-3", "name": "Pizzas", "imageUrl": "https://picsum.photos/seed/pizzas/400/300", "sortOrder": 3 },
+  { "id": "cat-4", "name": "Burgers", "imageUrl": "https://picsum.photos/seed/burgers/400/300", "sortOrder": 4 },
+  { "id": "cat-5", "name": "Desserts", "imageUrl": "https://picsum.photos/seed/desserts/400/300", "sortOrder": 5 },
+  { "id": "cat-6", "name": "Beverages", "imageUrl": "https://picsum.photos/seed/beverages/400/300", "sortOrder": 6 }
+]

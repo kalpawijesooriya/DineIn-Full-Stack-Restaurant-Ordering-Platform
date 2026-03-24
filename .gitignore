@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+bin/
+obj/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Expo
+.expo/
+
+# .NET
+*.dll
+*.exe
+*.pdb
+packages/
+TestResults/
+
+# Misc
+*.log
+npm-debug.log*

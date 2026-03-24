@@ -1,0 +1,218 @@
+[
+  {
+    "id": "item-1",
+    "name": "Garlic Bread",
+    "description": "Crispy bread topped with garlic butter and herbs",
+    "price": 6.99,
+    "imageUrl": "https://picsum.photos/seed/garlicbread/400/300",
+    "categoryId": "cat-1",
+    "customizationGroups": [
+      {
+        "id": "cg-1",
+        "name": "Add Cheese",
+        "required": false,
+        "maxSelections": 1,
+        "options": [
+          { "id": "opt-1", "name": "Mozzarella", "priceAdjustment": 1.50 },
+          { "id": "opt-2", "name": "Parmesan", "priceAdjustment": 2.00 }
+        ]
+      }
+    ],
+    "isAvailable": true
+  },
+  {
+    "id": "item-2",
+    "name": "Chicken Wings",
+    "description": "Crispy fried wings with your choice of sauce",
+    "price": 12.99,
+    "imageUrl": "https://picsum.photos/seed/wings/400/300",
+    "categoryId": "cat-1",
+    "customizationGroups": [
+      {
+        "id": "cg-2",
+        "name": "Sauce",
+        "required": true,
+        "maxSelections": 1,
+        "options": [
+          { "id": "opt-3", "name": "Buffalo", "priceAdjustment": 0 },
+          { "id": "opt-4", "name": "BBQ", "priceAdjustment": 0 },
+          { "id": "opt-5", "name": "Honey Garlic", "priceAdjustment": 0.50 }
+        ]
+      }
+    ],
+    "isAvailable": true
+  },
+  {
+    "id": "item-3",
+    "name": "Grilled Salmon",
+    "description": "Fresh Atlantic salmon with lemon butter sauce, served with seasonal vegetables",
+    "price": 24.99,
+    "imageUrl": "https://picsum.photos/seed/salmon/400/300",
+    "categoryId": "cat-2",
+    "customizationGroups": [
+      {
+        "id": "cg-3",
+        "name": "Side",
+        "required": true,
+        "maxSelections": 1,
+        "options": [
+          { "id": "opt-6", "name": "Mashed Potatoes", "priceAdjustment": 0 },
+          { "id": "opt-7", "name": "French Fries", "priceAdjustment": 0 },
+          { "id": "opt-8", "name": "Garden Salad", "priceAdjustment": 0 }
+        ]
+      }
+    ],
+    "isAvailable": true
+  },
+  {
+    "id": "item-4",
+    "name": "Margherita Pizza",
+    "description": "Classic tomato sauce, fresh mozzarella, and basil",
+    "price": 16.99,
+    "imageUrl": "https://picsum.photos/seed/margherita/400/300",
+    "categoryId": "cat-3",
+    "customizationGroups": [
+      {
+        "id": "cg-4",
+        "name": "Size",
+        "required": true,
+        "maxSelections": 1,
+        "options": [
+          { "id": "opt-9", "name": "Medium (12\")", "priceAdjustment": 0 },
+          { "id": "opt-10", "name": "Large (16\")", "priceAdjustment": 4.00 }
+        ]
+      },
+      {
+        "id": "cg-5",
+        "name": "Extra Toppings",
+        "required": false,
+        "maxSelections": 3,
+        "options": [
+          { "id": "opt-11", "name": "Mushrooms", "priceAdjustment": 1.50 },
+          { "id": "opt-12", "name": "Olives", "priceAdjustment": 1.00 },
+          { "id": "opt-13", "name": "Pepperoni", "priceAdjustment": 2.00 }
+        ]
+      }
+    ],
+    "isAvailable": true
+  },
+  {
+    "id": "item-5",
+    "name": "Classic Cheeseburger",
+    "description": "Angus beef patty with cheddar, lettuce, tomato, and special sauce",
+    "price": 14.99,
+    "imageUrl": "https://picsum.photos/seed/cheeseburger/400/300",
+    "categoryId": "cat-4",
+    "customizationGroups": [
+      {
+        "id": "cg-6",
+        "name": "Doneness",
+        "required": true,
+        "maxSelections": 1,
+        "options": [
+          { "id": "opt-14", "name": "Medium Rare", "priceAdjustment": 0 },
+          { "id": "opt-15", "name": "Medium", "priceAdjustment": 0 },
+          { "id": "opt-16", "name": "Well Done", "priceAdjustment": 0 }
+        ]
+      },
+      {
+        "id": "cg-7",
+        "name": "Add-ons",
+        "required": false,
+        "maxSelections": 3,
+        "options": [
+          { "id": "opt-17", "name": "Bacon", "priceAdjustment": 2.00 },
+          { "id": "opt-18", "name": "Extra Patty", "priceAdjustment": 4.00 },
+          { "id": "opt-19", "name": "Avocado", "priceAdjustment": 1.50 }
+        ]
+      }
+    ],
+    "isAvailable": true
+  },
+  {
+    "id": "item-6",
+    "name": "Chocolate Lava Cake",
+    "description": "Warm chocolate cake with a molten center, served with vanilla ice cream",
+    "price": 9.99,
+    "imageUrl": "https://picsum.photos/seed/lavacake/400/300",
+    "categoryId": "cat-5",
+    "customizationGroups": [],
+    "isAvailable": true
+  },
+  {
+    "id": "item-7",
+    "name": "Tiramisu",
+    "description": "Classic Italian dessert with espresso-soaked ladyfingers and mascarpone cream",
+    "price": 8.99,
+    "imageUrl": "https://picsum.photos/seed/tiramisu/400/300",
+    "categoryId": "cat-5",
+    "customizationGroups": [],
+    "isAvailable": true
+  },
+  {
+    "id": "item-8",
+    "name": "Fresh Lemonade",
+    "description": "House-made lemonade with fresh lemons and mint",
+    "price": 4.99,
+    "imageUrl": "https://picsum.photos/seed/lemonade/400/300",
+    "categoryId": "cat-6",
+    "customizationGroups": [
+      {
+        "id": "cg-8",
+        "name": "Size",
+        "required": true,
+        "maxSelections": 1,
+        "options": [
+          { "id": "opt-20", "name": "Regular", "priceAdjustment": 0 },
+          { "id": "opt-21", "name": "Large", "priceAdjustment": 1.50 }
+        ]
+      }
+    ],
+    "isAvailable": true
+  },
+  {
+    "id": "item-9",
+    "name": "Iced Coffee",
+    "description": "Cold brew coffee served over ice",
+    "price": 5.49,
+    "imageUrl": "https://picsum.photos/seed/icedcoffee/400/300",
+    "categoryId": "cat-6",
+    "customizationGroups": [
+      {
+        "id": "cg-9",
+        "name": "Milk",
+        "required": false,
+        "maxSelections": 1,
+        "options": [
+          { "id": "opt-22", "name": "Whole Milk", "priceAdjustment": 0 },
+          { "id": "opt-23", "name": "Oat Milk", "priceAdjustment": 0.75 },
+          { "id": "opt-24", "name": "Almond Milk", "priceAdjustment": 0.75 }
+        ]
+      }
+    ],
+    "isAvailable": true
+  },
+  {
+    "id": "item-10",
+    "name": "Steak Frites",
+    "description": "8oz ribeye steak with truffle fries and peppercorn sauce",
+    "price": 29.99,
+    "imageUrl": "https://picsum.photos/seed/steak/400/300",
+    "categoryId": "cat-2",
+    "customizationGroups": [
+      {
+        "id": "cg-10",
+        "name": "Doneness",
+        "required": true,
+        "maxSelections": 1,
+        "options": [
+          { "id": "opt-25", "name": "Rare", "priceAdjustment": 0 },
+          { "id": "opt-26", "name": "Medium Rare", "priceAdjustment": 0 },
+          { "id": "opt-27", "name": "Medium", "priceAdjustment": 0 },
+          { "id": "opt-28", "name": "Well Done", "priceAdjustment": 0 }
+        ]
+      }
+    ],
+    "isAvailable": true
+  }
+]
