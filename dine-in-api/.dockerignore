@@ -1,0 +1,12 @@
+**/bin/
+**/obj/
+**/.vs/
+**/.vscode/
+**/*.user
+**/*.suo
+**/*.swp
+**/*.tmp
+**/.DS_Store
+.git
+.gitignore
+README.md

@@ -1,0 +1,186 @@
+name: Deploy Frontend Apps to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - dine-in-admin/**
+      - dine-in-kitchen/**
+      - dine-in-order/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            dine-in-admin/package-lock.json
+            dine-in-kitchen/package-lock.json
+            dine-in-order/package-lock.json
+
+      - name: Build dine-in-admin
+        run: |
+          cd dine-in-admin
+          npm ci
+          npx tsc -b
+          npx vite build --base=/admin/
+
+      - name: Build dine-in-kitchen
+        run: |
+          cd dine-in-kitchen
+          npm ci
+          npx tsc -b
+          npx vite build --base=/kitchen/
+
+      - name: Build dine-in-order
+        run: |
+          cd dine-in-order
+          npm ci
+          npx tsc -b
+          npx vite build --base=/order/
+
+      - name: Prepare Pages content
+        run: |
+          mkdir -p _site
+          cp -R dine-in-admin/dist _site/admin
+          cp -R dine-in-kitchen/dist _site/kitchen
+          cp -R dine-in-order/dist _site/order
+          touch _site/.nojekyll
+
+          cat > _site/index.html << 'EOF'
+          <!doctype html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>DineIn Platform</title>
+            <style>
+              :root {
+                color-scheme: dark;
+                --bg: #0b1220;
+                --panel: #121b2d;
+                --border: #27324a;
+                --text: #e6edf9;
+                --muted: #9fb0cf;
+                --accent: #52b5ff;
+              }
+
+              * { box-sizing: border-box; }
+
+              body {
+                margin: 0;
+                min-height: 100vh;
+                font-family: "Segoe UI", "SF Pro Text", -apple-system, BlinkMacSystemFont, sans-serif;
+                background: radial-gradient(1200px 600px at 20% -10%, #1a2742 0%, var(--bg) 55%);
+                color: var(--text);
+                display: grid;
+                place-items: center;
+                padding: 2rem;
+              }
+
+              main {
+                width: min(960px, 100%);
+              }
+
+              h1 {
+                margin: 0 0 0.75rem;
+                font-size: clamp(1.8rem, 3vw, 2.6rem);
+              }
+
+              p {
+                margin: 0 0 1.5rem;
+                color: var(--muted);
+              }
+
+              .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 1rem;
+              }
+
+              a.card {
+                text-decoration: none;
+                color: inherit;
+                background: linear-gradient(180deg, rgba(82, 181, 255, 0.12), rgba(255, 255, 255, 0.02));
+                border: 1px solid var(--border);
+                border-radius: 14px;
+                padding: 1rem;
+                transition: transform 120ms ease, border-color 120ms ease;
+              }
+
+              a.card:hover {
+                transform: translateY(-2px);
+                border-color: var(--accent);
+              }
+
+              .title {
+                font-weight: 600;
+                display: block;
+                margin-bottom: 0.35rem;
+              }
+
+              .path {
+                color: var(--muted);
+                font-size: 0.9rem;
+              }
+            </style>
+          </head>
+          <body>
+            <main>
+              <h1>DineIn Platform</h1>
+              <p>Select an app to continue.</p>
+              <div class="grid">
+                <a class="card" href="/admin/">
+                  <span class="title">Admin Dashboard</span>
+                  <span class="path">/admin</span>
+                </a>
+                <a class="card" href="/kitchen/">
+                  <span class="title">Kitchen Display</span>
+                  <span class="path">/kitchen</span>
+                </a>
+                <a class="card" href="/order/">
+                  <span class="title">Order Online</span>
+                  <span class="path">/order</span>
+                </a>
+              </div>
+            </main>
+          </body>
+          </html>
+          EOF
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
