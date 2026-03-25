@@ -1,7 +1,8 @@
 # DineIn Full-Stack Restaurant Ordering Platform
 
-A complete restaurant ordering ecosystem with four connected applications:
+A complete restaurant ordering ecosystem with five connected applications:
 - Customer mobile app (Expo React Native)
+- Customer web ordering app (React + Vite)
 - Kitchen display app (React + Vite)
 - Admin and cashier app (React + Vite)
 - .NET 9 backend API (Clean Architecture + SignalR)
@@ -11,6 +12,7 @@ A complete restaurant ordering ecosystem with four connected applications:
 - `dine-in-api` -> .NET 9 backend (JWT auth, role-based policies, EF Core, SignalR)
 - `dine-in-admin` -> Admin dashboard + Cashier POS web app
 - `dine-in-kitchen` -> Kitchen display web app
+- `dine-in-order` -> Customer web ordering app
 - `dine-in-app` -> Customer mobile app (Expo)
 
 ## Core Features
@@ -19,7 +21,7 @@ A complete restaurant ordering ecosystem with four connected applications:
 - Role-based access (`admin`, `cashier`)
 - Cashier POS with deferred payment support
 - Kitchen workflow board (order lifecycle states)
-- Customer ordering for dine-in, pickup, and delivery
+- Customer ordering experience across web and mobile for dine-in, pickup, and delivery
 - Menu customization groups/options management
 
 ## Tech Stack
@@ -32,7 +34,7 @@ A complete restaurant ordering ecosystem with four connected applications:
 - JWT Authentication
 
 ### Frontend
-- React 19 + Vite (admin, kitchen)
+- React 19 + Vite (admin, kitchen, customer web ordering)
 - Tailwind CSS
 - React Native + Expo (mobile app)
 - TypeScript
@@ -73,7 +75,15 @@ npm install
 npm run dev
 ```
 
-### 4) Mobile App
+### 4) Customer Web Ordering App
+
+```bash
+cd dine-in-order
+npm install
+npm run dev
+```
+
+### 5) Mobile App
 
 ```bash
 cd dine-in-app
