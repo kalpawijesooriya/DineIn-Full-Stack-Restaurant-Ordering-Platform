@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { getMenuItemById } from '@/api/menuApi';
 import { CustomizationGroup } from '@/components/menu/CustomizationGroup';
-import { Button, Modal, QuantitySelector, Skeleton } from '@/components/ui';
+import { Button, BottomSheet, Modal, QuantitySelector, Skeleton } from '@/components/ui';
 import { useToast } from '@/components/ui/ToastProvider';
 import { formatCurrency } from '@/hooks/useFormatCurrency';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useCartStore } from '@/store/cartStore';
 import type { MenuItem } from '@/types';
 
@@ -32,6 +33,7 @@ function getCustomizationAdjustments(item: MenuItem, selected: Record<string, st
 export function ItemDetailModal({ itemId, isOpen, onClose }: ItemDetailModalProps) {
   const addItem = useCartStore((state) => state.addItem);
   const { showToast } = useToast();
+  const isDesktop = useMediaQuery('(min-width: 768px)');
 
   const [item, setItem] = useState<MenuItem | null>(null);
   const [loading, setLoading] = useState(false);
@@ -164,14 +166,8 @@ export function ItemDetailModal({ itemId, isOpen, onClose }: ItemDetailModalProp
     onClose();
   };
 
-  return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title={item?.name ?? 'Item details'}
-      maxWidth="max-w-2xl"
-      bodyClassName="max-h-[80vh] overflow-y-auto p-0"
-    >
+  const content = (
+    <>
       {loading ? (
         <div className="space-y-4 p-5">
           <Skeleton className="h-56 w-full rounded-2xl" />
@@ -265,7 +261,32 @@ export function ItemDetailModal({ itemId, isOpen, onClose }: ItemDetailModalProp
           </div>
         </div>
       ) : null}
-    </Modal>
+    </>
+  );
+
+  if (isDesktop) {
+    return (
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        title={item?.name ?? 'Item details'}
+        maxWidth="max-w-2xl"
+        bodyClassName="max-h-[80vh] overflow-y-auto p-0"
+      >
+        {content}
+      </Modal>
+    );
+  }
+
+  return (
+    <BottomSheet
+      isOpen={isOpen}
+      onClose={onClose}
+      title={item?.name ?? 'Item details'}
+      bodyClassName="p-0"
+    >
+      {content}
+    </BottomSheet>
   );
 }
 
