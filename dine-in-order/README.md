@@ -82,3 +82,13 @@ VITE_API_BASE_URL=http://localhost:5038/api
 - `npm run build` - Type-check and build for production
 - `npm run lint` - Run ESLint
 - `npm run preview` - Preview production build
+
+## Deployment
+
+This app is deployed to **GitHub Pages** via the workflow at `.github/workflows/deploy-frontend.yml`.
+
+- Trigger: push to `master` when files in `dine-in-order/` change
+- Deployed path: `/order` (e.g., `https://<owner>.github.io/<repo>/order`)
+- Base path is set automatically during CI build (`--base=/order/`)
+
+To configure the API URL for production, set `VITE_API_BASE_URL` as an environment variable in the workflow or update `.env` before building.

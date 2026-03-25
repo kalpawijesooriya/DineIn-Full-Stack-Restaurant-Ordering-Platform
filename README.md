@@ -98,6 +98,60 @@ Then open in Expo Go (or Android/iOS simulator).
 - Admin: `admin` / `admin123`
 - Cashier: `cashier` / `cashier123`
 
+## CI/CD & Deployment
+
+The project includes GitHub Actions workflows that trigger on push to `master`.
+
+### Frontend — GitHub Pages
+
+**Workflow:** `.github/workflows/deploy-frontend.yml`
+
+Builds and deploys all three web apps to GitHub Pages under subdirectories:
+
+| App | Path | Local Port |
+|-----|------|------------|
+| Admin Dashboard | `/admin` | 5174 |
+| Kitchen Display | `/kitchen` | 5173 |
+| Customer Ordering | `/order` | 5175 |
+
+A landing page at the root links to all three apps.
+
+**Path filter:** Only triggers when files in `dine-in-admin/`, `dine-in-kitchen/`, or `dine-in-order/` change.
+
+**Setup required:**
+1. Go to repo **Settings → Pages → Source** and select **GitHub Actions**
+
+### API — GitHub Container Registry (GHCR)
+
+**Workflow:** `.github/workflows/deploy-api.yml`
+
+Builds a Docker image for the .NET 9 API and pushes it to GHCR.
+
+**Path filter:** Only triggers when files in `dine-in-api/` change.
+
+**Image:** `ghcr.io/<owner>/<repo>/dine-in-api:latest`
+
+**Run the image:**
+```bash
+docker run -p 8080:8080 ghcr.io/<owner>/<repo>/dine-in-api:latest
+```
+
+> Both workflows also support manual dispatch via `workflow_dispatch`.
+
+## Docker
+
+### API
+
+Build and run the API locally with Docker:
+
+```bash
+cd dine-in-api
+docker build -t dine-in-api .
+docker run -p 8080:8080 dine-in-api
+```
+
+The API will be available at `http://localhost:8080`.
+
 ## Notes
 
 - Keep all projects in this monorepo; `dine-in-app` is now part of the same repository.
