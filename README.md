@@ -100,7 +100,7 @@ Then open in Expo Go (or Android/iOS simulator).
 
 ## CI/CD & Deployment
 
-The project includes GitHub Actions workflows that trigger on push to `master`.
+The project includes GitHub Actions workflows that trigger on push to `main`.
 
 ### Frontend — GitHub Pages
 
