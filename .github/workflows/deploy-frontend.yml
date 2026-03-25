@@ -3,7 +3,7 @@ name: Deploy Frontend Apps to GitHub Pages
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - dine-in-admin/**
       - dine-in-kitchen/**
