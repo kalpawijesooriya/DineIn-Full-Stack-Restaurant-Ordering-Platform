@@ -3,8 +3,8 @@ services:
     name: dine-in-api
     runtime: docker
     plan: free
-    dockerfilePath: ./dine-in-api/Dockerfile
-    dockerContext: ./dine-in-api
+    rootDir: dine-in-api
+    dockerfilePath: ./Dockerfile
     branch: main
     autoDeploy: true
     envVars:
