@@ -56,8 +56,9 @@ dotnet restore
 dotnet run --project src/DineIn.API/DineIn.API.csproj
 ```
 
-Default API base URL:
-- `http://localhost:5038`
+API base URLs:
+- Production: `https://dinein-full-stack-restaurant-ordering.onrender.com`
+- Local development: `http://localhost:5038`
 
 ### 2) Admin + Cashier App
 
@@ -130,6 +131,8 @@ Builds a Docker image for the .NET 9 API and pushes it to GHCR.
 **Path filter:** Only triggers when files in `dine-in-api/` change.
 
 **Image:** `ghcr.io/<owner>/<repo>/dine-in-api:latest`
+
+**Live API:** `https://dinein-full-stack-restaurant-ordering.onrender.com`
 
 **Run the image:**
 ```bash

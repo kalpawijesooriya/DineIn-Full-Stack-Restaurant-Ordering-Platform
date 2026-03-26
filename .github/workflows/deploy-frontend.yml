@@ -38,34 +38,65 @@ jobs:
 
       - name: Build dine-in-admin
         run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          PROD_API_BASE_URL="https://dinein-full-stack-restaurant-ordering.onrender.com/api"
+          if [ "$REPO_NAME" = "${GITHUB_REPOSITORY_OWNER}.github.io" ]; then
+            BASE_PREFIX=""
+          else
+            BASE_PREFIX="/$REPO_NAME"
+          fi
+
           cd dine-in-admin
           npm ci
           npx tsc -b
-          npx vite build --base=/admin/
+          VITE_API_BASE_URL="$PROD_API_BASE_URL" npx vite build --base="${BASE_PREFIX}/admin/"
 
       - name: Build dine-in-kitchen
         run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          PROD_API_BASE_URL="https://dinein-full-stack-restaurant-ordering.onrender.com/api"
+          if [ "$REPO_NAME" = "${GITHUB_REPOSITORY_OWNER}.github.io" ]; then
+            BASE_PREFIX=""
+          else
+            BASE_PREFIX="/$REPO_NAME"
+          fi
+
           cd dine-in-kitchen
           npm ci
           npx tsc -b
-          npx vite build --base=/kitchen/
+          VITE_API_BASE_URL="$PROD_API_BASE_URL" npx vite build --base="${BASE_PREFIX}/kitchen/"
 
       - name: Build dine-in-order
         run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          PROD_API_BASE_URL="https://dinein-full-stack-restaurant-ordering.onrender.com/api"
+          if [ "$REPO_NAME" = "${GITHUB_REPOSITORY_OWNER}.github.io" ]; then
+            BASE_PREFIX=""
+          else
+            BASE_PREFIX="/$REPO_NAME"
+          fi
+
           cd dine-in-order
           npm ci
           npx tsc -b
-          npx vite build --base=/order/
+          VITE_API_BASE_URL="$PROD_API_BASE_URL" npx vite build --base="${BASE_PREFIX}/order/"
 
       - name: Prepare Pages content
         run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          if [ "$REPO_NAME" = "${GITHUB_REPOSITORY_OWNER}.github.io" ]; then
+            BASE_PREFIX=""
+          else
+            BASE_PREFIX="/$REPO_NAME"
+          fi
+
           mkdir -p _site
           cp -R dine-in-admin/dist _site/admin
           cp -R dine-in-kitchen/dist _site/kitchen
           cp -R dine-in-order/dist _site/order
           touch _site/.nojekyll
 
-          cat > _site/index.html << 'EOF'
+          cat > _site/index.html << EOF
           <!doctype html>
           <html lang="en">
           <head>
@@ -148,17 +179,17 @@ jobs:
               <h1>DineIn Platform</h1>
               <p>Select an app to continue.</p>
               <div class="grid">
-                <a class="card" href="/admin/">
+                <a class="card" href="${BASE_PREFIX}/admin/">
                   <span class="title">Admin Dashboard</span>
-                  <span class="path">/admin</span>
+                  <span class="path">${BASE_PREFIX}/admin</span>
                 </a>
-                <a class="card" href="/kitchen/">
+                <a class="card" href="${BASE_PREFIX}/kitchen/">
                   <span class="title">Kitchen Display</span>
-                  <span class="path">/kitchen</span>
+                  <span class="path">${BASE_PREFIX}/kitchen</span>
                 </a>
-                <a class="card" href="/order/">
+                <a class="card" href="${BASE_PREFIX}/order/">
                   <span class="title">Order Online</span>
-                  <span class="path">/order</span>
+                  <span class="path">${BASE_PREFIX}/order</span>
                 </a>
               </div>
             </main>
