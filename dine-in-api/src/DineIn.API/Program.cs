@@ -181,12 +181,11 @@ using (var scope = app.Services.CreateScope())
 // Middleware pipeline
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DineIn API v1"));
     app.MapOpenApi();
-}
+
 
 app.UseCors("MobileApp");
 app.UseAuthentication();
