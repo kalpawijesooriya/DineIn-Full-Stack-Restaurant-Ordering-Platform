@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: dine-in-api
+    runtime: docker
+    plan: free
+    rootDir: dine-in-api
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    branch: main
+    autoDeploy: true
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__DefaultConnection
+        sync: false
+      - key: Jwt__Key
+        sync: false
+      - key: Jwt__Issuer
+        value: DineIn.API
+      - key: Jwt__Audience
+        value: DineIn.Admin
+      - key: Jwt__ExpiresInHours
+        value: "8"
