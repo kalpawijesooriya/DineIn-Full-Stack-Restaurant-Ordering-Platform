@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - dine-in-admin/**
-      - dine-in-kitchen/**
-      - dine-in-order/**
   workflow_dispatch:
 
 permissions:
