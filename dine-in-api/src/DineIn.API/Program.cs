@@ -14,6 +14,11 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Database
+//server=resturent
+// dinein
+// dominos@123
+
 // Serilog
 builder.Host.UseSerilog((context, config) =>
     config.ReadFrom.Configuration(context.Configuration)
@@ -129,6 +134,27 @@ using (var scope = app.Services.CreateScope())
 ");
 
     await SeedDataHelper.SeedAsync(context);
+
+    if (!await context.AdminUsers.AnyAsync(u => u.Username == "admin"))
+    {
+        var salt = new byte[32];
+        using var rng = System.Security.Cryptography.RandomNumberGenerator.Create();
+        rng.GetBytes(salt);
+        var hash = Convert.ToBase64String(System.Security.Cryptography.Rfc2898DeriveBytes.Pbkdf2(
+            System.Text.Encoding.UTF8.GetBytes("admin123"),
+            salt, 100_000, System.Security.Cryptography.HashAlgorithmName.SHA256, 32));
+
+        context.AdminUsers.Add(new DineIn.Domain.Entities.AdminUser
+        {
+            Id = Guid.NewGuid(),
+            Username = "admin",
+            PasswordHash = $"{Convert.ToBase64String(salt)}.{hash}",
+            DisplayName = "Administrator",
+            Role = "admin",
+            CreatedAt = DateTime.UtcNow
+        });
+        await context.SaveChangesAsync();
+    }
 
     if (!await context.AdminUsers.AnyAsync(u => u.Role == "cashier"))
     {

@@ -8,6 +8,7 @@ interface BottomSheetProps {
   title: string;
   children: ReactNode;
   bodyClassName?: string;
+  footer?: ReactNode;
 }
 
 const FOCUSABLE_SELECTORS =
@@ -19,6 +20,7 @@ export function BottomSheet({
   title,
   children,
   bodyClassName,
+  footer,
 }: BottomSheetProps) {
   const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -110,7 +112,7 @@ export function BottomSheet({
         tabIndex={-1}
         onClick={(event) => event.stopPropagation()}
         onKeyDown={handleKeyDown}
-        className={`fixed inset-x-0 bottom-0 max-h-[90vh] w-full rounded-t-3xl bg-white shadow-xl transition-transform duration-300 ease-out ${
+        className={`fixed inset-x-0 bottom-0 max-h-[90vh] w-full rounded-t-3xl bg-white shadow-xl transition-transform duration-300 ease-out flex flex-col ${
           visible ? 'translate-y-0' : 'translate-y-full'
         }`}
       >
@@ -132,7 +134,8 @@ export function BottomSheet({
             </svg>
           </button>
         </div>
-        <div className={`overflow-y-auto px-5 py-4 ${bodyClassName ?? ''}`}>{children}</div>
+        <div className={`overflow-y-auto flex-1 min-h-0 px-5 py-4 ${bodyClassName ?? ''}`}>{children}</div>
+        {footer}
       </div>
     </div>,
     document.body
