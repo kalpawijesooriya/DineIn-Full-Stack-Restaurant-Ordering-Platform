@@ -7,7 +7,7 @@ import { ToastProvider } from './components/ui/ToastProvider'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <ToastProvider>
         <App />
       </ToastProvider>

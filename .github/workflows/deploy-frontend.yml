@@ -90,7 +90,51 @@ jobs:
           cp -R dine-in-admin/dist _site/admin
           cp -R dine-in-kitchen/dist _site/kitchen
           cp -R dine-in-order/dist _site/order
+
+          RESTORE_SCRIPT='<script>(function(){var r=sessionStorage.getItem("spa-redirect");if(r){sessionStorage.removeItem("spa-redirect");history.replaceState(null,"",r);}})();</script>'
+          for app_dir in admin kitchen order; do
+            if [ -f "_site/${app_dir}/index.html" ]; then
+              sed -i "s|</head>|${RESTORE_SCRIPT}</head>|" "_site/${app_dir}/index.html"
+            fi
+          done
+
           touch _site/.nojekyll
+
+          cat > _site/404.html << EOF
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>Redirecting...</title>
+            <script>
+              // GitHub Pages SPA redirect hack
+              var path = window.location.pathname;
+              var search = window.location.search;
+              var hash = window.location.hash;
+
+              // Store the full path for the SPA to restore
+              sessionStorage.setItem('spa-redirect', path + search + hash);
+
+              // Detect which app this belongs to and redirect to its index
+              var base = '${BASE_PREFIX}';
+              var apps = ['/admin/', '/kitchen/', '/order/'];
+              var target = base + '/';  // default to landing page
+
+              for (var i = 0; i < apps.length; i++) {
+                if (path.indexOf(base + apps[i]) === 0) {
+                  target = base + apps[i];
+                  break;
+                }
+              }
+
+              window.location.replace(target);
+            </script>
+          </head>
+          <body>
+            Redirecting...
+          </body>
+          </html>
+          EOF
 
           cat > _site/index.html << EOF
           <!doctype html>

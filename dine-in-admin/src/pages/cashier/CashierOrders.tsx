@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { completeOrder, getCashierOrders, processCashierPayment } from '@/api/cashierApi';
 import { useSignalR } from '@/hooks/useSignalR';
 import type { Order } from '@/types';
+import Receipt from '../../components/Receipt';
 
 const STATUS_COLORS: Record<string, string> = {
   confirmed: 'bg-blue-100 text-blue-700',
@@ -24,6 +25,7 @@ export default function CashierOrders() {
   const [error, setError] = useState('');
   const [completing, setCompleting] = useState<string | null>(null);
   const [paymentModal, setPaymentModal] = useState<Order | null>(null);
+  const [printOrder, setPrintOrder] = useState<Order | null>(null);
 
   const loadOrders = useCallback(() => {
     setLoading(true);
@@ -37,6 +39,12 @@ export default function CashierOrders() {
 
   useEffect(loadOrders, [loadOrders]);
   useSignalR(loadOrders);
+
+  useEffect(() => {
+    const handleAfterPrint = () => setPrintOrder(null);
+    window.addEventListener('afterprint', handleAfterPrint);
+    return () => window.removeEventListener('afterprint', handleAfterPrint);
+  }, []);
 
   const handleComplete = async (id: string) => {
     setCompleting(id);
@@ -57,6 +65,11 @@ export default function CashierOrders() {
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Error');
     }
+  };
+
+  const handlePrint = (order: Order) => {
+    setPrintOrder(order);
+    setTimeout(() => window.print(), 200);
   };
 
   const formatTime = (iso: string) => {
@@ -88,6 +101,7 @@ export default function CashierOrders() {
               { key: 'ready', label: 'Ready' },
               { key: 'confirmed', label: 'Confirmed' },
               { key: 'preparing', label: 'Preparing' },
+              { key: 'completed', label: 'Completed' },
             ].map((f) => (
               <button
                 key={f.key}
@@ -139,6 +153,7 @@ export default function CashierOrders() {
                     order={order}
                     onComplete={status === 'ready' ? () => handleComplete(order.id) : undefined}
                     onProcessPayment={() => setPaymentModal(order)}
+                    onPrint={handlePrint}
                     completing={completing === order.id}
                     formatTime={formatTime}
                     timeAgo={timeAgo}
@@ -158,6 +173,7 @@ export default function CashierOrders() {
                 order={order}
                 onComplete={order.status === 'ready' ? () => handleComplete(order.id) : undefined}
                 onProcessPayment={() => setPaymentModal(order)}
+                onPrint={handlePrint}
                 completing={completing === order.id}
                 formatTime={formatTime}
                 timeAgo={timeAgo}
@@ -175,6 +191,8 @@ export default function CashierOrders() {
           onClose={() => setPaymentModal(null)}
         />
       )}
+
+      {printOrder && <Receipt order={printOrder} />}
     </div>
   );
 }
@@ -183,6 +201,7 @@ function OrderCard({
   order,
   onComplete,
   onProcessPayment,
+  onPrint,
   completing,
   formatTime,
   timeAgo,
@@ -190,6 +209,7 @@ function OrderCard({
   order: Order;
   onComplete?: () => void;
   onProcessPayment: () => void;
+  onPrint?: (order: Order) => void;
   completing: boolean;
   formatTime: (iso: string) => string;
   timeAgo: (iso: string) => string;
@@ -266,6 +286,15 @@ function OrderCard({
           className="w-full mt-3 py-2.5 bg-green-600 text-white rounded-xl text-sm font-bold hover:bg-green-700 disabled:opacity-50 transition-all active:scale-[0.98]"
         >
           {completing ? 'Completing...' : '✓ Complete Order'}
+        </button>
+      )}
+
+      {onPrint && (order.status === 'completed' || order.status === 'ready') && (
+        <button
+          onClick={() => onPrint(order)}
+          className="w-full mt-3 py-2.5 border border-gray-300 text-gray-700 rounded-xl text-sm font-bold hover:bg-gray-50 transition-all active:scale-[0.98]"
+        >
+          🖨️ Print Bill
         </button>
       )}
     </div>
